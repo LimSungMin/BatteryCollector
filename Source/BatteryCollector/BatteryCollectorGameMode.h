@@ -59,6 +59,9 @@ private:
 	EBatteryPlayState CurrentState;
 
 	TArray<class ASpawnVolume*> SpawnVolumeActors;
+
+	// 게임 플레이 상태에 영향을 주는 모든 기능의 집합
+	void HandleNewState(EBatteryPlayState NewState);
 };
 
 
