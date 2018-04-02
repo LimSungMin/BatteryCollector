@@ -84,13 +84,25 @@ protected:
 	void CollectPickups();
 
 	// 캐릭터 파워 초기값
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Power")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Power", Meta = (BlueprintProtected = "true"))
 	float InitialPower;
+
+	// 캐릭터 스피드 곱연산자
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Power", Meta = (BlueprintProtected = "true"))
+	float SpeedFactor;
+
+	// 파워가 0 일때 기본 스피드
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Power", Meta = (BlueprintProtected = "true"))
+	float BaseSpeed;
+
+	// BlueprintImplementableEvent - 블루프린트로만 구현될 함수라 내부 구현이 필요 없다
+	UFUNCTION(BlueprintImplementableEvent, Category = "Power")
+	void PowerChangeEffect();
 
 private:
 	// 캐릭터의 현재 파워값
 	UPROPERTY(VisibleAnywhere, Category = "Power")
-	float ChracterPower;
+	float CharacterPower;
 
 public:
 	/** Returns CameraBoom subobject **/
