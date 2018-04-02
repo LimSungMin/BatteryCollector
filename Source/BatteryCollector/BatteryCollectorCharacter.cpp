@@ -11,6 +11,7 @@
 #include "Classes/Components/SphereComponent.h"
 #include "Engine/World.h"
 #include "Pickup.h"
+#include "BatteryPickup.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ABatteryCollectorCharacter
@@ -110,6 +111,10 @@ void ABatteryCollectorCharacter::CollectPickups()
 	// Collection sphere 와 오버랩되는 모든 액터를 가져옴
 	TArray<AActor*> CollectedActors;
 	CollectionSphere->GetOverlappingActors(CollectedActors);
+
+	// 수집된 배터리 파워
+	float CollectedPower = 0;
+
 	// 액터 순환
 	for (int32 iCollected = 0; iCollected < CollectedActors.Num(); iCollected++)
 	{
@@ -120,9 +125,24 @@ void ABatteryCollectorCharacter::CollectPickups()
 		{
 			// 해당 아이템의 WasCollected 호출
 			TestPickup->WasCollected();
+
+			// 배터리인지 확인
+			ABatteryPickup* const TestBattery = Cast<ABatteryPickup>(TestPickup);
+			if (TestBattery)
+			{
+				// 배터리의 파워값을 더해주기
+				CollectedPower += TestBattery->GetPower();
+			}
+
 			// 아이템을 비활성화
 			TestPickup->SetActive(false);
 		}
+	}
+
+	// 수집된 파워양을 업데이트
+	if (CollectedPower > 0)
+	{
+		UpdatePower(CollectedPower);
 	}
 }
 
