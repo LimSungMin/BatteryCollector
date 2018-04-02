@@ -20,21 +20,20 @@ ASpawnVolume::ASpawnVolume()
 	// 딜레이 세팅
 	SpawnDelayRangeLow = 1.0f;
 	SpawnDelayRangeHigh = 4.5f;
+
+	IsConnected = false;
 }
 
 // Called when the game starts or when spawned
 void ASpawnVolume::BeginPlay()
 {
-	Super::BeginPlay();
-	
-	SpawnDelay = FMath::FRandRange(SpawnDelayRangeLow, SpawnDelayRangeHigh);
-	GetWorldTimerManager().SetTimer(SpawnTimer, this, &ASpawnVolume::SpawnPickup, SpawnDelay, false);
+	Super::BeginPlay();	
 	
 	// 소켓 연결
-// 	socket.InitSocket();
-// 	if (socket.Connect("127.0.0.1", 8000)) {
-// 		// socket.SendLocation(1, 2, 3);
-// 	}
+	socket.InitSocket();
+	if (socket.Connect("127.0.0.1", 8000)) {
+		IsConnected = true;
+	}
 }
 
 // Called every frame
@@ -52,6 +51,20 @@ FVector ASpawnVolume::GetRandomPointInVolume()
 	return UKismetMathLibrary::RandomPointInBoundingBox(SpawnOrigin, SpawnExtent);
 }
 
+void ASpawnVolume::SetSpawningActive(bool bShouldSpawn)
+{
+	if (bShouldSpawn)
+	{
+		// spawn pickup 타이머 설정
+		SpawnDelay = FMath::FRandRange(SpawnDelayRangeLow, SpawnDelayRangeHigh);
+		GetWorldTimerManager().SetTimer(SpawnTimer, this, &ASpawnVolume::SpawnPickup, SpawnDelay, false);
+	}
+	else {
+		// spawn 타이머 초기화
+		GetWorldTimerManager().ClearTimer(SpawnTimer);
+	}
+}
+
 void ASpawnVolume::SpawnPickup()
 {
 	if (WhatToSpawn != NULL) {
@@ -64,7 +77,14 @@ void ASpawnVolume::SpawnPickup()
 			SpawnParams.Instigator = Instigator;
 
 			// 랜덤 위치를 가져옴
-			FVector SpawnLocation = GetRandomPointInVolume();
+			FVector SpawnLocation;
+			if (IsConnected)
+			{
+				SpawnLocation = socket.RequestLocation();
+			}
+			else {
+				SpawnLocation = GetRandomPointInVolume();
+			}
 
 			// 랜덤 로테이션값 넣어줌
 			FRotator SpawnRatation;
@@ -72,11 +92,8 @@ void ASpawnVolume::SpawnPickup()
 			SpawnRatation.Roll = FMath::FRand() * 360.0f;
 			SpawnRatation.Pitch = FMath::FRand() * 360.0f;
 
-			// 아이템을 생성
-			// auto loc = socket.RequestLocation();
-			APickup* const SpawnPickup = world->SpawnActor<APickup>(WhatToSpawn, SpawnLocation, SpawnRatation, SpawnParams);
-			// socket.SendLocation(SpawnLocation.X, SpawnLocation.Y, SpawnLocation.Z);
-			
+			// 아이템을 생성			
+			APickup* const SpawnPickup = world->SpawnActor<APickup>(WhatToSpawn, SpawnLocation, SpawnRatation, SpawnParams);			
 
 			SpawnDelay = FMath::FRandRange(SpawnDelayRangeLow, SpawnDelayRangeHigh);
 			GetWorldTimerManager().SetTimer(SpawnTimer, this, &ASpawnVolume::SpawnPickup, SpawnDelay, false);

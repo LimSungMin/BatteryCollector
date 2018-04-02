@@ -42,6 +42,10 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Spawning")
 	FVector GetRandomPointInVolume();
 
+	// 스폰 토글 함수
+	UFUNCTION(BlueprintCallable, Category = "Spawning")
+	void SetSpawningActive(bool bShouldSpawn);
+
 private:
 	// 아이템 스폰 위치를 지정할 박스 컴포넌트
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawning", meta = (AllowPrivateAccess = "true"))
@@ -55,5 +59,6 @@ private:
 
 	// 소켓
 	cSocket socket;
+	bool IsConnected;
 	
 };
