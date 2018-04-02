@@ -18,4 +18,12 @@ public:
 	ABatteryPickup();
 	
 	void WasCollected_Implementation() override;
+
+	// battery power getter 함수
+	float GetPower();
+
+protected:
+	// 캐릭터에게 줄 power 계수
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Power", Meta=(BlueprintProtected = "true"))
+	float BatteryPower;
 };

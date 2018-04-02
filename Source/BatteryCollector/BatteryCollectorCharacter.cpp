@@ -53,6 +53,25 @@ ABatteryCollectorCharacter::ABatteryCollectorCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+
+	// 캐릭터의 기본 파워 초기값 설정
+	InitialPower = 2000.f;
+	ChracterPower = InitialPower;
+}
+
+float ABatteryCollectorCharacter::GetInitialPower()
+{
+	return InitialPower;
+}
+
+float ABatteryCollectorCharacter::GetCurrentPower()
+{
+	return ChracterPower;
+}
+
+void ABatteryCollectorCharacter::UpdatePower(float PowerChange)
+{
+	ChracterPower += PowerChange;
 }
 
 //////////////////////////////////////////////////////////////////////////
