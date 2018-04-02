@@ -36,8 +36,8 @@ public:
 
 	// 배터리가 수집되었을 때 호출할 함수
 	UFUNCTION(BlueprintNativeEvent)
-	// void WasCollected();
-	virtual void WasCollected_implementation();
+	void WasCollected();
+	virtual void WasCollected_Implementation();
 	
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pickup", meta = (AllowPrivateAccess = "true"))

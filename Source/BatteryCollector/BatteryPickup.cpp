@@ -8,10 +8,10 @@ ABatteryPickup::ABatteryPickup()
 	GetMesh()->SetSimulatePhysics(true);
 }
 
-void ABatteryPickup::WasCollected_implementation()
+void ABatteryPickup::WasCollected_Implementation()
 {
 	// 부모 클래스의 함수 호출
-	Super::WasCollected_implementation();
+	Super::WasCollected_Implementation();
 	// 객체 파괴
 	Destroy();
 }
