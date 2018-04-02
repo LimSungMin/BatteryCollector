@@ -4,6 +4,7 @@
 #include "BatteryCollectorCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
+#include "Blueprint/UserWidget.h"
 
 ABatteryCollectorGameMode::ABatteryCollectorGameMode()
 {
@@ -35,6 +36,28 @@ void ABatteryCollectorGameMode::Tick(float DeltaTime)
 		{
 			// decay rate 만큼 파워를 업데이트
 			MyCharacter->UpdatePower(-DeltaTime * DecayRate * (MyCharacter->GetInitialPower()));
+		}
+	}
+}
+
+void ABatteryCollectorGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+
+	// power to win 을 initial power 기준으로 세팅
+	auto MyCharacter = Cast<ABatteryCollectorCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
+	if (MyCharacter)
+	{
+		PowerToWin = (MyCharacter->GetInitialPower()) * 1.25f;
+	}
+
+	// 위젯 세팅
+	if (HUDWidgetClass != nullptr)
+	{
+		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), HUDWidgetClass);
+		if (CurrentWidget != nullptr)
+		{
+			CurrentWidget->AddToViewport();
 		}
 	}
 }
