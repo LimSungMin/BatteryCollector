@@ -9,6 +9,8 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Classes/Components/SphereComponent.h"
+#include "Engine/World.h"
+#include "Pickup.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ABatteryCollectorCharacter
@@ -63,6 +65,8 @@ void ABatteryCollectorCharacter::SetupPlayerInputComponent(class UInputComponent
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	PlayerInputComponent->BindAction("Collect", IE_Pressed, this, &ABatteryCollectorCharacter::CollectPickups);
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &ABatteryCollectorCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ABatteryCollectorCharacter::MoveRight);
 
@@ -80,6 +84,27 @@ void ABatteryCollectorCharacter::SetupPlayerInputComponent(class UInputComponent
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ABatteryCollectorCharacter::OnResetVR);
+}
+
+void ABatteryCollectorCharacter::CollectPickups()
+{
+	// Collection sphere 와 오버랩되는 모든 액터를 가져옴
+	TArray<AActor*> CollectedActors;
+	CollectionSphere->GetOverlappingActors(CollectedActors);
+	// 액터 순환
+	for (int32 iCollected = 0; iCollected < CollectedActors.Num(); iCollected++)
+	{
+		// 액터를 APickup 으로 형변환
+		APickup* const TestPickup = Cast<APickup>(CollectedActors[iCollected]);
+		// 형변환이 성공하고 아이템이 유효할때
+		if (TestPickup && !TestPickup->IsPendingKill() && TestPickup->IsActive())
+		{
+			// 해당 아이템의 WasCollected 호출
+			TestPickup->WasCollected();
+			// 아이템을 비활성화
+			TestPickup->SetActive(false);
+		}
+	}
 }
 
 
