@@ -17,5 +17,5 @@ public:
 	// 기본값 설정
 	ABatteryPickup();
 	
-	
+	void WasCollected_implementation() override;
 };
