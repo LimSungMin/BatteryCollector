@@ -1,12 +1,10 @@
-# BatteryCollector
+ï»¿# BatteryCollector
 
-## Based on [Unreal Engine 4 C++ Æ©Åä¸®¾ó](https://www.youtube.com/playlist?list=PLZlv_N0_O1gYup-gvJtMsgJqnEB_dGiM4) 
-- UE 4.19 ±â¹İ ¹èÅÍ¸® °ÔÀÓ Á¦ÀÛÁß
-- ~~±Ùµ¥ ¹öÀüÀÌ ³Ê¹« ³·Àºµí.. ¿µ»ó ´ñ±Û¿¡¼­µµ F·Î ½ÃÀÛÇØ K·Î ³¡³ª´Â ´Ü¾î°¡ ¸¹ÀÌ ³ª¿È.. ¾÷µ« µÆÀ¸¸é~~
+## Based on [Unreal Engine 4 C++ íŠœí† ë¦¬ì–¼](https://www.youtube.com/playlist?list=PLZlv_N0_O1gYup-gvJtMsgJqnEB_dGiM4) 
+- UE 4.19 ê¸°ë°˜ Battery Collecting ê²Œì„
 
-## UE + TCP/IP simple socket networking
-- °£´ÜÇÑ tcp/ip ¼ÒÄÏ Åë½Å
-- Å¬¶óÀÌ¾ğÆ®°¡ ¼­¹ö¿¡°Ô ¹èÅÍ¸® ÁÂÇ¥°ªÀ» ¿äÃ»ÈÄ ¿ùµå¿¡ ½ºÆù
-- [¼­¹ö ÄÚµå](https://github.com/LimSungMin/BatteryCollector/tree/master/winsock_server)
-- [Å¬¶óÀÌ¾ğÆ® ÄÚµå](https://github.com/LimSungMin/BatteryCollector/tree/master/Source/BatteryCollector)
+## C++ IOCP Battery Server
+- ë°°í„°ë¦¬ ì†Œí™˜ì„ ë‹´ë‹¹í•˜ëŠ” IOCP ì„œë²„
+- client ê°€ ë°°í„°ë¦¬ ì¢Œí‘œê°’ì„ ìš”ì²­í•˜ë©´ Spawn Volume ì—ì„œ ë°°í„°ë¦¬ë¥¼ ì†Œí™˜
+- ì‚¬ì‹¤ìƒ echo ì„œë²„ë‘ ë‹¤ë¥¼ë°” ì—†ëŠ” ê°„ë‹¨í•œ ì„œë²„, í–¥í›„ í™•ì¥ì„ ì–´ë–»ê²Œ í• ì§€ ê³ ë¯¼..
 

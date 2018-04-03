@@ -33,6 +33,7 @@ void ASpawnVolume::BeginPlay()
 	socket.InitSocket();
 	if (socket.Connect("127.0.0.1", 8000)) {
 		IsConnected = true;
+		UE_LOG(LogClass, Log, TEXT("Battery Server Connect Success"));
 	}
 }
 
